@@ -1,0 +1,38 @@
+# Containerfile.wayland-base
+FROM fedora:latest
+
+# Install Wayland libraries and common dependencies
+RUN dnf install -y \
+    wayland-devel \
+    wayland-utils\
+    mesa-dri-drivers \
+    dbus 
+
+RUN dnf install -y sudo
+RUN dnf install -y  mesa-libEGL     mesa-libGL     mesa-libgbm     libglvnd     libglvnd-egl     libglvnd-glx     libglvnd-opengl
+
+COPY code-1.134.0-1787078888.el8.x86_64.rpm /tmp/
+RUN dnf install -y /tmp/code-1.134.0-1787078888.el8.x86_64.rpm 
+RUN rm -f /tmp/code-1.134.0-1787078888.el8.x86_64.rpm
+
+# Create dev user (optional, for better permission mapping)
+RUN useradd -m -u 1000 -s /bin/bash dev && \
+    usermod -aG wheel dev && \
+    echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev && \
+    chmod 440 /etc/sudoers.d/dev
+
+# Create runtime directory
+RUN mkdir -p /run/user/1000 && \
+    chown dev:dev /run/user/1000 && \
+    chmod 700 /run/user/1000
+
+
+USER dev
+
+# Set working directory
+WORKDIR /home/dev
+
+
+# Default command
+CMD ["/bin/bash"]
+
