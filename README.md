@@ -1,5 +1,7 @@
 # hardened-container
-Template and SELinux policy for a development container
+Template and SELinux policy for a development container.
+
+It works with VSCode.
 
 
 # How-TO
