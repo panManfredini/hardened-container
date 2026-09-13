@@ -4,7 +4,7 @@ Template and SELinux policy for a development container
 
 # How-TO
 
-- use [udica]{https://github.com/containers/udica}  for SELinux policies 
+- use [udica](https://github.com/containers/udica)  for SELinux policies 
 - build a podman image from the template with the necessary libraries, user, etc
 - create a container with minimal capabilities
 - create a very first restrictive policy with udica
